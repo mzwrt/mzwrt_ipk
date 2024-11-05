@@ -57,11 +57,11 @@ jobs:
         rm -rf ./bot/luci-app-wechatpush/.git
         
         git clone https://github.com/ilxp/luci-app-ikoolproxy ./ad/luci-app-ikoolproxy
-        rm -rf ./luci-app-ikoolproxy/.github
-        rm -rf ./luci-app-ikoolproxy/.git
-        rm -rf ./luci-app-ikoolproxy/change.log
-        rm -rf ./luci-app-ikoolproxy/development.doc
-        rm -rf ./luci-app-ikoolproxy/README.md
+        rm -rf ./ad/luci-app-ikoolproxy/.github
+        rm -rf ./ad/luci-app-ikoolproxy/.git
+        rm -rf ./ad/luci-app-ikoolproxy/change.log
+        rm -rf ./ad/luci-app-ikoolproxy/development.doc
+        rm -rf ./ad/luci-app-ikoolproxy/README.md
 
         git clone https://github.com/linkease/nas-packages-luci ./iStore/nas-packages-luci
         mv ./iStore/nas-packages-luci/luci ./iStore/
