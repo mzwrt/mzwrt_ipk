@@ -90,7 +90,7 @@ jobs:
         rm -rf ./iStore/nas-packages-luci/.git
         
         update_repo "https://github.com/linkease/nas-packages" "./iStore/nas-packages"
-        mv ./iStore/nas-packages/multimedia/ffmpeg-remux ./iStore/nas-packages/ffmpeg-remux
+        mv ./iStore/nas-packages/multimedia/ffmpeg-remux ./iStore/nas-packages/
         mv ./iStore/nas-packages/network/services/* ./iStore/nas-packages/
         rm -rf ./iStore/nas-packages/multimedia
         rm -rf ./iStore/nas-packages/network
