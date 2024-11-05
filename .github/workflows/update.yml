@@ -31,6 +31,37 @@ jobs:
 
     - name: 更新代码库  # 更新多个代码库
       run: |
+        # 检查并更新各个项目，若目录已存在则跳过克隆
+        update_repo_clash() {
+          local repo_url=$1
+          local repo_dir=$2
+          if [ -d "$repo_dir" ]; then
+            echo "目录 $repo_dir 已存在，更新仓库..."
+            cd $repo_dir
+            git fetch origin  # 拉取远程更新
+            git reset --hard origin/dev  # 强制同步到 dev 分支
+            cd -
+          else
+            echo "克隆仓库 $repo_url 到 $repo_dir..."
+            git clone --depth=1 $repo_url -b dev $repo_dir
+          fi
+        }
+
+
+        
+        update_repo() {
+          local repo_url=$1
+          local repo_dir=$2
+          if [ -d "$repo_dir" ]; then
+            echo "目录 $repo_dir 已存在，更新仓库..."
+            cd $repo_dir
+            git pull origin main || git fetch origin && git reset --hard origin/main
+            cd -
+          else
+            echo "克隆仓库 $repo_url 到 $repo_dir..."
+            git clone $repo_url $repo_dir
+          fi
+        }
       
 
         # 克隆新项目
@@ -41,43 +72,43 @@ jobs:
         rm -rf ./dns
         rm -rf ./bot
         
-        git clone https://github.com/rufengsuixing/luci-app-adguardhome ./dns/luci-app-adguardhome
+        update_repo "https://github.com/rufengsuixing/luci-app-adguardhome" "./dns/luci-app-adguardhome"
         rm -rf ./dns/luci-app-adguardhome/README.md
         rm -rf ./dns/luci-app-adguardhome/.github
         rm -rf ./dns/luci-app-adguardhome/.git
         rm -rf ./dns/luci-app-adguardhome/.gitattributes
         rm -rf ./dns/luci-app-adguardhome/.gitignore
 
-        git clone https://github.com/sirpdboy/luci-app-ddns-go ./dns/ddnsgo
+        update_repo "https://github.com/sirpdboy/luci-app-ddns-go" "./dns/ddnsgo"
         mv ./dns/ddnsgo/ddns-go ./dns/
         mv ./dns/ddnsgo/luci-app-ddns-go ./dns/
         rm -rf ./dns/ddnsgo
         
-        git clone https://github.com/zzsj0928/luci-app-pushbot ./bot/luci-app-pushbot
+        update_repo "https://github.com/zzsj0928/luci-app-pushbot" "./bot/luci-app-pushbot"
         rm -rf ./bot/luci-app-pushbot/.git
         rm -rf ./bot/luci-app-pushbot/README.md
         rm -rf ./bot/luci-app-pushbot/.github
         
-        git clone https://github.com/tty228/luci-app-wechatpush ./bot/luci-app-wechatpush
+        update_repo "https://github.com/tty228/luci-app-wechatpush" "./bot/luci-app-wechatpush"
         rm -rf ./bot/luci-app-wechatpush/README.md
         rm -rf ./bot/luci-app-wechatpush/README_en.md
         rm -rf ./bot/luci-app-wechatpush/.github
         rm -rf ./bot/luci-app-wechatpush/.git
         
-        git clone https://github.com/ilxp/luci-app-ikoolproxy ./ad/luci-app-ikoolproxy
+        update_repo "https://github.com/ilxp/luci-app-ikoolproxy" "./ad/luci-app-ikoolproxy"
         rm -rf ./ad/luci-app-ikoolproxy/.github
         rm -rf ./ad/luci-app-ikoolproxy/.git
         rm -rf ./ad/luci-app-ikoolproxy/change.log
         rm -rf ./ad/luci-app-ikoolproxy/development.doc
         rm -rf ./ad/luci-app-ikoolproxy/README.md
 
-        git clone https://github.com/linkease/nas-packages-luci ./iStore/nas-packages-luci
+        update_repo "https://github.com/linkease/nas-packages-luci" "./iStore/nas-packages-luci"
         mv ./iStore/nas-packages-luci/luci ./iStore/
         rm -rf ./iStore/nas-packages-luci
         rm -rf ./iStore/nas-packages-luci/.github
         rm -rf ./iStore/nas-packages-luci/.git
         
-        git clone https://github.com/linkease/nas-packages ./iStore/nas-packages
+        update_repo "https://github.com/linkease/nas-packages" "./iStore/nas-packages"
         mv ./iStore/nas-packages/multimedia/ffmpeg-remux ./iStore/nas-packages/
         mv ./iStore/nas-packages/network/services/* ./iStore/nas-packages/
         rm -rf ./iStore/nas-packages/multimedia
@@ -86,7 +117,7 @@ jobs:
         rm -rf ./iStore/nas-packages/.github
         rm -rf ./iStore/nas-packages/README.md
         
-        git clone https://github.com/linkease/istore ./iStore/iStore
+        update_repo "https://github.com/linkease/istore" "./iStore/iStore"
         rm -rf ./iStore/iStore/.github
         rm -rf ./iStore/iStore/.git
         rm -rf ./iStore/iStore/README.md
@@ -95,26 +126,26 @@ jobs:
         mv ./iStore/iStore/luci/*  ./iStore/luci/
         rm -rf ./iStore/iStore
 
-        git clone https://github.com/linkease/istore-ui ./iStore/istore-ui
+        update_repo "https://github.com/linkease/istore-ui" "./iStore/istore-ui"
         mv ./iStore/istore-ui/app-store-ui ./iStore/luci/
         rm -rf ./iStore/istore-ui  
 
-        git clone https://github.com/jerrykuku/go-aliyundrive-webdav ./nas/go-aliyundrive-webdav
+        update_repo "https://github.com/jerrykuku/go-aliyundrive-webdav" "./nas/go-aliyundrive-webdav"
         rm -rf ./nas/go-aliyundrive-webdav/.git
         rm -rf ./nas/go-aliyundrive-webdav/.github
         rm -rf ./nas/go-aliyundrive-webdav/README.md
         
-        git clone https://github.com/jerrykuku/luci-app-go-aliyundrive-webdav ./nas/luci-app-go-aliyundrive-webdav
+        update_repo "https://github.com/jerrykuku/luci-app-go-aliyundrive-webdav" "./nas/luci-app-go-aliyundrive-webdav"
         rm -rf ./nas/luci-app-go-aliyundrive-webdav/.git
         rm -rf ./nas/luci-app-go-aliyundrive-webdav/.github
         rm -rf ./nas/luci-app-go-aliyundrive-webdav/README.md
 
-        git clone https://github.com/xiaorouji/openwrt-passwall-packages ./vpn
+        update_repo "https://github.com/xiaorouji/openwrt-passwall-packages" "./vpn"
         rm -rf ./vpn/.github
         rm -rf ./vpn/.git
         rm -rf ./vpn/chinadns-ng
 
-        git clone https://github.com/fw876/helloworld ./vpn/helloworld
+        update_repo "https://github.com/fw876/helloworld" "./vpn/helloworld"
         mv ./vpn/helloworld/redsocks2 ./vpn/
         mv ./vpn/helloworld/lua-neturl ./vpn/
         mv ./vpn/helloworld/shadow-tls ./vpn/
@@ -125,21 +156,21 @@ jobs:
         mv ./vpn/helloworld/naiveproxy ./vpn/
         rm -rf ./vpn/helloworld
     
-        git clone https://github.com/xiaorouji/openwrt-passwall ./vpn/vpn-luci/passwall
-        git clone https://github.com/xiaorouji/openwrt-passwall2 ./vpn/vpn-luci/passwall2
+        update_repo "https://github.com/xiaorouji/openwrt-passwall" "./vpn/vpn-luci/passwall"
+        update_repo "https://github.com/xiaorouji/openwrt-passwall2" "./vpn/vpn-luci/passwall2"
         mv ./vpn/vpn-luci/passwall/luci-app-passwall ./vpn/vpn-luci/
         mv ./vpn/vpn-luci/passwall2/luci-app-passwall2 ./vpn/vpn-luci/
         rm -rf ./vpn/vpn-luci/passwall
         rm -rf ./vpn/vpn-luci/passwall2
 
-        git clone --depth=1 https://github.com/vernesong/OpenClash.git -b dev
+        update_repo_clash "https://github.com/vernesong/OpenClash.git" "./OpenClash"
         rm -rf ./OpenClash/.git
         rm -rf ./OpenClash/.github
         rm -rf ./OpenClash/README.md
         mv ./OpenClash/luci-app-openclash ./vpn/vpn-luci/
         rm -rf ./OpenClash
         
-        git clone https://github.com/kenzok8/openwrt-packages ./op-mosdns
+        update_repo "https://github.com/kenzok8/openwrt-packages" "./op-mosdns"
 
         mv ./op-mosdns/smartdns ./dns/
         mv ./op-mosdns/luci-app-smartdns ./dns/
