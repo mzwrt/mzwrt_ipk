@@ -16,10 +16,8 @@ jobs:
     - name: Clone Repository  # 克隆代码库
       uses: actions/checkout@v4  # 使用官方的 checkout Action
 
-    - name: 设置 git 配置  # 设置 git 用户信息
+    - name: 设置时区为上海
       run : |
-        git config --global user.email "${{ secrets.GH_MAIL }}"  # 设置 git 邮箱
-        git config --global user.name "${{ secrets.GH_NAME }}"    # 设置 git 用户名
         sudo timedatectl set-timezone "Asia/Shanghai"  # 设置时区为上海
 
     - name: 删除工作流运行记录  # 清理旧的工作流运行记录
@@ -159,10 +157,8 @@ jobs:
         rm -rf ./op-mosdns
 
         
-    - name: Commit Changes  # 提交更改
+    - name: 提交更改并推送到远程仓库  # 提交更改并推送
       run: |
-        git add .  # 添加所有更改
-        git commit -m "Update scripts"  # 提交更改，附带提交信息
-
-    - name: Push Changes  # 推送更改到远程仓库
-      run: git push  # 推送所有更改
+        git add .
+        git commit -m "Update scripts"
+        git push https://github.com/${{ github.repository }} HEAD:main --token ${{ secrets.GITHUB_TOKEN }}
