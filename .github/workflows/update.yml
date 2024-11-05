@@ -119,6 +119,24 @@ jobs:
         rm -rf ./vpn/.git
         rm -rf ./vpn/chinadns-ng
 
+        git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git ./theme/luci-theme-argon
+        rm -rf ./theme/luci-theme-argon/.github
+        rm -rf ./theme/luci-theme-argon/.git
+        rm -rf ./theme/luci-theme-argon/.gitignore
+        rm -rf ./theme/luci-theme-argon/LICENSE
+        rm -rf ./theme/luci-theme-argon/README.md
+        rm -rf ./theme/luci-theme-argon/README_ZH.md
+        rm -rf ./theme/luci-theme-argon/RELEASE.md
+        rm -rf ./theme/luci-theme-argon/RELEASE_ZH.md
+
+        git clone -b 18.06 https://github.com/jerrykuku/luci-app-argon-config.git ./theme/luci-app-argon-config
+        rm -rf ./theme/luci-app-argon-config/LICENSE
+        rm -rf ./theme/luci-app-argon-config/README.md
+        rm -rf ./theme/luci-app-argon-config/README_ZH.md
+        rm -rf ./theme/luci-app-argon-config/.git
+        rm -rf ./theme/luci-app-argon-config/.github
+        
+
          git clone https://github.com/fw876/helloworld ./vpn/helloworld
         mv ./vpn/helloworld/redsocks2 ./vpn/redsocks2
         mv ./vpn/helloworld/lua-neturl ./vpn/lua-neturl
@@ -156,10 +174,6 @@ jobs:
         mv ./op-mosdns/luci-app-filebrowser ./nas/luci-app-filebrowser
         mv ./op-mosdns/luci-app-advanced ./nas/luci-app-advanced
 
-        mv ./op-mosdns/luci-app-argon-config ./theme/luci-app-argon-config
-        mv ./op-mosdns/luci-theme-argon ./theme/luci-theme-argon
-        mv ./op-mosdns/luci-app-argone-config ./theme/luci-app-argone-config
-        mv ./op-mosdns/luci-theme-argone ./theme/luci-theme-argone
 
         mv ./op-mosdns/gost ./vpn/gost
         mv ./op-mosdns/luci-app-gost ./vpn/luci-app-gost
