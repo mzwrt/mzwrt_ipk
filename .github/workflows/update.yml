@@ -31,8 +31,16 @@ jobs:
 
     - name: 更新代码库  # 更新多个代码库
       run: |
+      
 
         # 克隆新项目
+        rm -rf ./vpn
+        rm -rf ./nas
+        rm -rf ./iStore
+        rm -rf ./docker
+        rm -rf ./dns
+        rm -rf ./bot
+        
         git clone https://github.com/rufengsuixing/luci-app-adguardhome ./dns/luci-app-adguardhome
         rm -rf ./dns/luci-app-adguardhome/README.md
         rm -rf ./dns/luci-app-adguardhome/.github
