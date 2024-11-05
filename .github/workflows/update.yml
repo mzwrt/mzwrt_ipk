@@ -40,10 +40,10 @@ jobs:
         rm -rf ./dns/luci-app-adguardhome/.gitattributes
         rm -rf ./dns/luci-app-adguardhome/.gitignore
 
-        git clone https://github.com/sirpdboy/luci-app-ddns-go ./dns/ddns-go
-        mv ./dns/ddns-go/ddns-go ./dns/
-        mv ./dns/ddns-go/luci-app-ddns-go ./dns/
-        rm -rf ./dns/ddns-go
+        git clone https://github.com/sirpdboy/luci-app-ddns-go ./dns/ddnsgo
+        mv ./dns/ddnsgo/ddns-go ./dns/
+        mv ./dns/ddnsgo/luci-app-ddns-go ./dns/
+        rm -rf ./dns/ddnsgo
         
         git clone https://github.com/zzsj0928/luci-app-pushbot ./bot/luci-app-pushbot
         rm -rf ./bot/luci-app-pushbot/.git
