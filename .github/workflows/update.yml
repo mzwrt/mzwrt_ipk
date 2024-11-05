@@ -129,6 +129,7 @@ jobs:
         rm -rf ./OpenClash/.github
         rm -rf ./OpenClash/README.md
         mv ./OpenClash/luci-app-openclash ./vpn/vpn-luci/
+        rm -rf ./OpenClash
         
         git clone https://github.com/kenzok8/openwrt-packages ./op-mosdns
 
