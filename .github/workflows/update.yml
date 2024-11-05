@@ -1,0 +1,168 @@
+name: Update
+
+on: 
+  repository_dispatch:  # 允许外部事件触发工作流
+  workflow_dispatch:    # 允许手动触发工作流
+
+# 定时触发编译
+  schedule:
+    - cron: 0 23 * * *  # 每天晚上 11 点触发
+
+jobs:
+  Update:
+    runs-on: ubuntu-latest  # 使用最新的 Ubuntu 环境
+
+    steps:
+    - name: Clone Repository  # 克隆代码库
+      uses: actions/checkout@v4  # 使用官方的 checkout Action
+
+    - name: 设置 git 配置  # 设置 git 用户信息
+      run : |
+        git config --global user.email "${{ secrets.GH_MAIL }}"  # 设置 git 邮箱
+        git config --global user.name "${{ secrets.GH_NAME }}"    # 设置 git 用户名
+        sudo timedatectl set-timezone "Asia/Shanghai"  # 设置时区为上海
+
+    - name: 删除工作流运行记录  # 清理旧的工作流运行记录
+      uses: Mattraks/delete-workflow-runs@main  # 使用 Mattraks 提供的删除工作流运行的 GitHub Action
+      continue-on-error: true  # 如果此步骤失败，后续步骤仍然会继续执行
+      with:
+        retain_days: 1  # 保留最近 1 天的运行记录
+        keep_minimum_runs: 0  # 最少保留的运行记录数量为 0
+
+    - name: 更新代码库  # 更新多个代码库
+      run: |
+
+        # 克隆新项目
+        git clone https://github.com/rufengsuixing/luci-app-adguardhome ./dns/luci-app-adguardhome
+        rm -rf ./dns/luci-app-adguardhome/README.md
+        rm -rf ./dns/luci-app-adguardhome/.github
+        rm -rf ./dns/luci-app-adguardhome/.git
+        rm -rf ./dns/luci-app-adguardhome/.gitattributes
+        rm -rf ./dns/luci-app-adguardhome/.gitignore
+
+        git clone https://github.com/sirpdboy/luci-app-ddns-go ./dns/ddns-go
+        mv ./dns/ddns-go/ddns-go ./dns/
+        mv ./dns/ddns-go/luci-app-ddns-go ./dns/
+        rm -rf ./dns/ddns-go
+        
+        git clone https://github.com/zzsj0928/luci-app-pushbot ./bot/luci-app-pushbot
+        rm -rf ./bot/luci-app-pushbot/.git
+        rm -rf ./bot/luci-app-pushbot/README.md
+        rm -rf ./bot/luci-app-pushbot/.github
+        
+        git clone https://github.com/tty228/luci-app-wechatpush ./bot/luci-app-wechatpush
+        rm -rf ./bot/luci-app-wechatpush/README.md
+        rm -rf ./bot/luci-app-wechatpush/README_en.md
+        rm -rf ./bot/luci-app-wechatpush/.github
+        rm -rf ./bot/luci-app-wechatpush/.git
+        
+        git clone https://github.com/ilxp/luci-app-ikoolproxy ./ad/luci-app-ikoolproxy
+        rm -rf ./luci-app-ikoolproxy/.github
+        rm -rf ./luci-app-ikoolproxy/.git
+        rm -rf ./luci-app-ikoolproxy/change.log
+        rm -rf ./luci-app-ikoolproxy/development.doc
+        rm -rf ./luci-app-ikoolproxy/README.md
+
+        git clone https://github.com/linkease/nas-packages-luci ./iStore/nas-packages-luci
+        mv ./iStore/nas-packages-luci/luci ./iStore/
+        rm -rf ./iStore/nas-packages-luci
+        rm -rf ./iStore/nas-packages-luci/.github
+        rm -rf ./iStore/nas-packages-luci/.git
+        
+        git clone https://github.com/linkease/nas-packages ./iStore/nas-packages
+        mv ./iStore/nas-packages/multimedia/ffmpeg-remux ./iStore/nas-packages/
+        mv ./iStore/nas-packages/network/services/* ./iStore/nas-packages/
+        rm -rf ./iStore/nas-packages/multimedia
+        rm -rf ./iStore/nas-packages/network
+        rm -rf ./iStore/nas-packages/.git
+        rm -rf ./iStore/nas-packages/.github
+        rm -rf ./iStore/nas-packages/README.md
+        
+        git clone https://github.com/linkease/istore ./iStore/iStore
+        rm -rf ./iStore/iStore/.github
+        rm -rf ./iStore/iStore/.git
+        rm -rf ./iStore/iStore/README.md
+        rm -rf ./iStore/iStore/README.en.md
+        rm -rf ./iStore/iStore/LICENSE
+        mv ./iStore/iStore/luci/*  ./iStore/luci/
+        rm -rf ./iStore/iStore
+
+        git clone https://github.com/linkease/istore-ui ./iStore/istore-ui
+        mv ./iStore/istore-ui/app-store-ui ./iStore/luci/
+        rm -rf ./iStore/istore-ui  
+
+        git clone https://github.com/jerrykuku/go-aliyundrive-webdav ./nas/go-aliyundrive-webdav
+        rm -rf ./nas/go-aliyundrive-webdav/.git
+        rm -rf ./nas/go-aliyundrive-webdav/.github
+        rm -rf ./nas/go-aliyundrive-webdav/README.md
+        
+        git clone https://github.com/jerrykuku/luci-app-go-aliyundrive-webdav ./nas/luci-app-go-aliyundrive-webdav
+        rm -rf ./nas/luci-app-go-aliyundrive-webdav/.git
+        rm -rf ./nas/luci-app-go-aliyundrive-webdav/.github
+        rm -rf ./nas/luci-app-go-aliyundrive-webdav/README.md
+
+        git clone https://github.com/xiaorouji/openwrt-passwall-packages ./vpn
+        rm -rf ./vpn/.github
+        rm -rf ./vpn/.git
+        rm -rf ./vpn/chinadns-ng
+
+        git clone https://github.com/fw876/helloworld ./vpn/helloworld
+        mv ./vpn/helloworld/redsocks2 ./vpn/
+        mv ./vpn/helloworld/lua-neturl ./vpn/
+        mv ./vpn/helloworld/shadow-tls ./vpn/
+        mv ./vpn/helloworld/luci-app-ssr-plus ./vpn/vpn-luci/
+        rm -rf ./vpn/gn
+        rm -rf ./vpn/naiveproxy
+        mv ./vpn/helloworld/gn ./vpn/
+        mv ./vpn/helloworld/naiveproxy ./vpn/
+        rm -rf ./vpn/helloworld
+    
+        git clone https://github.com/xiaorouji/openwrt-passwall ./vpn/vpn-luci/passwall
+        git clone https://github.com/xiaorouji/openwrt-passwall2 ./vpn/vpn-luci/passwall2
+        mv ./vpn/vpn-luci/passwall/luci-app-passwall ./vpn/vpn-luci/
+        mv ./vpn/vpn-luci/passwall2/luci-app-passwall2 ./vpn/vpn-luci/
+        rm -rf ./vpn/vpn-luci/passwall
+        rm -rf ./vpn/vpn-luci/passwall2
+
+        git clone --depth=1 https://github.com/vernesong/OpenClash.git -b dev
+        rm -rf ./OpenClash/.git
+        rm -rf ./OpenClash/.github
+        rm -rf ./OpenClash/README.md
+        mv ./OpenClash/luci-app-openclash ./vpn/vpn-luci/
+        
+        git clone https://github.com/kenzok8/openwrt-packages ./op-mosdns
+
+        mv ./op-mosdns/smartdns ./dns/
+        mv ./op-mosdns/luci-app-smartdns ./dns/
+        mv ./op-mosdns/luci-app-aliddns ./dns/
+
+        mv ./op-mosdns/alist ./nas/
+        mv ./op-mosdns/luci-app-alist ./nas/
+        mv ./op-mosdns/filebrowser ./nas/
+        mv ./op-mosdns/luci-app-filebrowser ./nas/
+        mv ./op-mosdns/luci-app-advanced ./nas/
+
+        mv ./op-mosdns/luci-app-argon-config /theme/
+        mv ./op-mosdns/luci-theme-argon /theme/
+        mv ./op-mosdns/luci-app-argone-config /theme/
+        mv ./op-mosdns/luci-theme-argone /theme/
+
+        mv ./op-mosdns/gost ./vpn/
+        mv ./op-mosdns/luci-app-gost ./vpn/
+        
+        mv ./op-mosdns/luci-app-dockerman ./docker/
+        
+
+        
+        rm -rf ./op-mosdns/.git
+        rm -rf ./op-mosdns/.github
+        rm -rf ./op-mosdns
+
+        
+    - name: Commit Changes  # 提交更改
+      run: |
+        git add .  # 添加所有更改
+        git commit -m "Update scripts"  # 提交更改，附带提交信息
+
+    - name: Push Changes  # 推送更改到远程仓库
+      run: git push  # 推送所有更改
