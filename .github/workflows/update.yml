@@ -16,8 +16,11 @@ jobs:
     - name: Clone Repository  # 克隆代码库
       uses: actions/checkout@v4  # 使用官方的 checkout Action
 
+    - name: 设置 git 配置  # 设置 git 用户信息
     - name: 设置时区为上海
       run : |
+        git config --global user.email "${{ secrets.GH_MAIL }}"  # 设置 git 邮箱
+        git config --global user.name "${{ secrets.GH_NAME }}"    # 设置 git 用户名
         sudo timedatectl set-timezone "Asia/Shanghai"  # 设置时区为上海
 
     - name: 删除工作流运行记录  # 清理旧的工作流运行记录
