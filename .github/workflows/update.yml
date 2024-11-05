@@ -40,6 +40,7 @@ jobs:
         rm -rf ./dns
         rm -rf ./bot
         rm -rf ./dns
+        rm -rf ./ad
         rm -rf ./vpn/luci-app-openclash
 
 
