@@ -33,6 +33,13 @@ jobs:
       run: |
 
         # 删除目录
+        rm -rf ./vpn
+        rm -rf ./nas
+        rm -rf ./iStore
+        rm -rf ./docker
+        rm -rf ./dns
+        rm -rf ./bot
+        rm -rf ./dns
         rm -rf ./vpn/luci-app-openclash
 
         
