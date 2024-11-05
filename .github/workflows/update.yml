@@ -159,8 +159,10 @@ jobs:
         rm -rf ./op-mosdns
 
         
-    - name: 提交更改并推送到远程仓库  # 提交更改并推送
+    - name: 提交更改并推送到远程仓库
       run: |
+        echo "Adding changes to git..."
         git add .
         git commit -m "Update scripts"
-        git push https://github.com/${{ github.repository }} HEAD:main --token ${{ secrets.GITHUB_TOKEN }}
+        echo "Pushing changes to GitHub..."
+        git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:main
