@@ -142,10 +142,10 @@ jobs:
         mv ./op-mosdns/luci-app-filebrowser ./nas/
         mv ./op-mosdns/luci-app-advanced ./nas/
 
-        mv ./op-mosdns/luci-app-argon-config /theme/
-        mv ./op-mosdns/luci-theme-argon /theme/
-        mv ./op-mosdns/luci-app-argone-config /theme/
-        mv ./op-mosdns/luci-theme-argone /theme/
+        mv ./op-mosdns/luci-app-argon-config ./theme/
+        mv ./op-mosdns/luci-theme-argon ./theme/
+        mv ./op-mosdns/luci-app-argone-config ./theme/
+        mv ./op-mosdns/luci-theme-argone ./theme/
 
         mv ./op-mosdns/gost ./vpn/
         mv ./op-mosdns/luci-app-gost ./vpn/
