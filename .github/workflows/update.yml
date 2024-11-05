@@ -36,11 +36,12 @@ jobs:
         rm -rf ./vpn
         rm -rf ./nas
         rm -rf ./iStore
-        rm -rf ./docker
         rm -rf ./dns
         rm -rf ./bot
         rm -rf ./dns
         rm -rf ./ad
+        rm -rf ./theme
+        rm -rf ./other
         rm -rf ./vpn/luci-app-openclash
 
 
