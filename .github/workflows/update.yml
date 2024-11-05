@@ -183,7 +183,7 @@ jobs:
 
         git clone https://github.com/lisaac/luci-app-dockerman ./other/dockerman
         mv ./other/dockerman/applications/luci-app-dockerman ./other/luci-app-dockerman
-        rm ./other/dockerman
+        rm -rf ./other/dockerman
 
         
     - name: 提交更改并推送到远程仓库
