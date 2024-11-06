@@ -69,6 +69,10 @@ jobs:
         rm -rf ./bot/luci-app-wechatpush/README_en.md
         rm -rf ./bot/luci-app-wechatpush/.github
         rm -rf ./bot/luci-app-wechatpush/.git
+
+        git clone https://github.com/brvphoenix/wrtbwmon ./bot/wrtbwmon-git
+        mv ./bot/wrtbwmon-git/wrtbwmon ./bot/
+        rm -rf ./bot/wrtbwmon-git
         
          git clone https://github.com/ilxp/luci-app-ikoolproxy ./ad/luci-app-ikoolproxy
         rm -rf ./ad/luci-app-ikoolproxy/.github
